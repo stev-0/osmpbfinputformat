@@ -22,7 +22,9 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -242,28 +244,28 @@ public class OsmPbfRecordReader extends RecordReader<LongWritable, OsmPrimitive>
 		lastLon += 0.000000001 * (currentPB.getLonOffset() + currentPB.getGranularity() * currentPG.getDense().getLon(nNodes));
 		lastLat += 0.000000001 * (currentPB.getLatOffset() + currentPB.getGranularity() * currentPG.getDense().getLat(nNodes));
 		lastId  += currentPG.getDense().getId(nNodes);
+		Map<String, String> tagsMap = new HashMap<String, String>();
 		if (!keysValsIsEmpty) {
 			// check the performance of this implementation
-			List<ByteString> nodeTags = new ArrayList<ByteString>();
+//			List<ByteString> nodeTags = new ArrayList<ByteString>();
 			if (tagLoc < currentPG.getDense().getKeysValsCount()){ // check before end of list of tagvals
 				while (currentPG.getDense().getKeysVals(tagLoc)!=0 ) {
 	                int keyLookup = currentPG.getDense().getKeysVals(tagLoc);
 	                int valueLookup = currentPG.getDense().getKeysVals(tagLoc +1);
 	                tagLoc += 2;
-	                ByteString key = currentST.getS(keyLookup);
-	                ByteString value = currentST.getS(valueLookup);
-	                nodeTags.add(key);
-	                nodeTags.add(ByteString.copyFromUtf8("#"));
-	                nodeTags.add(value);
-	                nodeTags.add(ByteString.copyFromUtf8(","));
-				}
-				tagLoc ++;
-				allNodeTags = (ByteString.copyFrom(nodeTags)).toStringUtf8();
-			}
+	                String key = currentST.getS(keyLookup).toStringUtf8();
+	                String value = currentST.getS(valueLookup).toStringUtf8();
+	                key = key.replaceAll("[\\s]", " ").replaceAll("[\\\'\\\"#,]", "_");
+	                value = value.replaceAll("[\\s]", " ").replaceAll("[\\\'\\\"#,]", "_");
+	                tagsMap.put(key, value);
+	            }
+	        }
+			tagLoc ++;
+//		allNodeTags = (ByteString.copyFrom(nodeTags)).toStringUtf8();
 		} else {
-			allNodeTags = "";
+//			allNodeTags = "";
 		}
-		currentPrimitive = new OsmPrimitive(lastId, lastLon, lastLat, allNodeTags);
+		currentPrimitive = new OsmPrimitive(lastId, lastLon, lastLat, tagsMap);
 
 		nNodes++;
 

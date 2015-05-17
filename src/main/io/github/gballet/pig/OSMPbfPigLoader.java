@@ -50,7 +50,7 @@ public class OSMPbfPigLoader extends LoadFunc {
              	t.append(value.id);
              	t.append(value.lat);
             	t.append(value.lon);
-            	t.append(value.tags);
+            	t.append(value.nodeTags);
             return t;
             }
             
@@ -68,7 +68,7 @@ public class OSMPbfPigLoader extends LoadFunc {
             	Tuple t =  mTupleFactory.newTuple(3);
                 t.append(value.id);
                 t.append(nodesBag);
-                t.append(value.tags);
+                t.append(value.wayTags);
             return t;
             }
         } catch (InterruptedException e) {
