@@ -45,11 +45,11 @@ public class OSMPbfPigLoader extends LoadFunc {
             
             if (parseType == OsmPbfRecordReader.OsmPbfReaderParseType.NODE) {
             // do something with value
-            	Tuple t =  mTupleFactory.newTuple();
-             	t.append(value.id);
-             	t.append(value.lat);
-            	t.append(value.lon);
-            	t.append(value.nodeTags);
+            	Tuple t =  mTupleFactory.newTuple(4);
+             	t.set(0,value.id);
+             	t.set(1,value.lat);
+            	t.set(2,value.lon);
+            	t.set(3,value.nodeTags);
             return t;
             }
             
@@ -64,10 +64,10 @@ public class OSMPbfPigLoader extends LoadFunc {
                     nodeTuple.set(1, nodeID);
                     nodesBag.add(nodeTuple);
                 }
-            	Tuple t =  mTupleFactory.newTuple();
-                t.append(value.id);
-                t.append(nodesBag);
-                t.append(value.wayTags);
+            	Tuple t =  mTupleFactory.newTuple(3);
+                t.set(0,value.id);
+                t.set(1,nodesBag);
+                t.set(2,value.wayTags);
             return t;
             }
         } catch (InterruptedException e) {

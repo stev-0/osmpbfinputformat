@@ -223,7 +223,6 @@ public class OsmPbfRecordReader extends
 		List<Long> nodeIDList = new ArrayList<Long>();
 		while (nodeRefPos < wayNodesCount) {
 			lastWayNodeId += currentPG.getWays(nWays).getRefs(nodeRefPos);
-			// LOG.info(lastWayNodeId);
 			nodeIDList.add(lastWayNodeId);
 			++nodeRefPos;
 		}
