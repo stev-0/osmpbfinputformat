@@ -10,7 +10,7 @@ public class OsmPrimitive {
 	public double lat;
 	public long id;
 	public Map<String,String> nodeTags;
-	public String wayTags;
+	public Map<String, String> wayTags;
 	
 	public List<Long> wayNodeList;
 	
@@ -24,6 +24,7 @@ public class OsmPrimitive {
 		return isWay;
 	}
 	
+	// node constructor
 	public OsmPrimitive(long id_, double lon_, double lat_, Map<String,String> tags_)
 	{
 		id = id_;
@@ -35,11 +36,11 @@ public class OsmPrimitive {
 		isWay = false;
 	}
 	
-	//way contstructor	
-	public OsmPrimitive(long id_, List<Long> nodeIDList, String allWayTags) {
+	//way constructor	
+	public OsmPrimitive(long id_, List<Long> nodeIDList, Map<String,String> tags) {
 		id = id_;
 		wayNodeList = nodeIDList;
-		wayTags = allWayTags;
+		wayTags = tags;
 		
 		isNode = false;
 		isWay = true;

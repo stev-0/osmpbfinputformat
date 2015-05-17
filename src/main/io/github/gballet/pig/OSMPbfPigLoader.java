@@ -1,7 +1,6 @@
 package io.github.gballet.pig;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.mapreduce.Job;
@@ -46,7 +45,7 @@ public class OSMPbfPigLoader extends LoadFunc {
             
             if (parseType == OsmPbfRecordReader.OsmPbfReaderParseType.NODE) {
             // do something with value
-            	Tuple t =  mTupleFactory.newTuple(4);
+            	Tuple t =  mTupleFactory.newTuple();
              	t.append(value.id);
              	t.append(value.lat);
             	t.append(value.lon);
@@ -65,7 +64,7 @@ public class OSMPbfPigLoader extends LoadFunc {
                     nodeTuple.set(1, nodeID);
                     nodesBag.add(nodeTuple);
                 }
-            	Tuple t =  mTupleFactory.newTuple(3);
+            	Tuple t =  mTupleFactory.newTuple();
                 t.append(value.id);
                 t.append(nodesBag);
                 t.append(value.wayTags);
