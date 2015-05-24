@@ -40,7 +40,6 @@ public class OSMPbfPigLoader extends LoadFunc {
         try {
         	if (!in.nextKeyValue())
         		return null;
-            in.nextKeyValue();
             OsmPrimitive value = (OsmPrimitive) in.getCurrentValue();
             
             if (parseType == OsmPbfRecordReader.OsmPbfReaderParseType.NODE) {
